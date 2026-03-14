@@ -100,7 +100,7 @@ document.getElementById("chat-box").appendChild(typing)
 
 try{
 
-const res=await fetch("http://localhost:5000/ask",{
+const res=await fetch("https://updated-ai-study-assistant-backend.onrender.com/ask",{
 
 method:"POST",
 
@@ -151,7 +151,7 @@ const formData=new FormData()
 
 formData.append("pdf",file)
 
-await fetch("http://localhost:5000/upload-pdf",{
+await fetch("https://updated-ai-study-assistant-backend.onrender.com/upload-pdf",{
 
 method:"POST",
 body:formData
@@ -173,7 +173,7 @@ addStreamingMessage(
 
 async function summarizePDF(){
 
-const res=await fetch("http://localhost:5000/summary")
+const res=await fetch("https://updated-ai-study-assistant-backend.onrender.com/summary")
 
 const data=await res.json()
 
@@ -185,7 +185,7 @@ addStreamingMessage(data.answer,"bot")
 
 async function generateQuiz(){
 
-const res=await fetch("http://localhost:5000/quiz")
+const res=await fetch("https://updated-ai-study-assistant-backend.onrender.com/quiz")
 
 const data=await res.json()
 
@@ -199,7 +199,7 @@ async function newChat(){
 
 currentConversationId=Date.now().toString()
 
-await fetch("http://localhost:5000/reset",{method:"POST"})
+await fetch("https://updated-ai-study-assistant-backend.onrender.com/reset",{method:"POST"})
 
 studyMode=false
 
@@ -232,7 +232,7 @@ event.results[0][0].transcript
 
 async function loadHistory(){
 
-const res=await fetch("http://localhost:5000/history/"+userId)
+const res=await fetch("https://updated-ai-study-assistant-backend.onrender.com/history/"+userId)
 
 const data=await res.json()
 
@@ -344,7 +344,7 @@ async function openConversation(id){
 
 currentConversationId=id
 
-const res=await fetch("http://localhost:5000/conversation/"+id)
+const res=await fetch("https://updated-ai-study-assistant-backend.onrender.com/conversation/"+id)
 
 const data=await res.json()
 
@@ -423,7 +423,7 @@ const password=document.getElementById("deletePassword").value
 
 const userId=localStorage.getItem("userId")
 
-const res=await fetch("http://localhost:5000/delete-account",{
+const res=await fetch("https://updated-ai-study-assistant-backend.onrender.com/delete-account",{
 
 method:"POST",
 
