@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>AI Study Assistant</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins;
+}
+
+body{
+
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1f1c2c);
+background-size:400% 400%;
+
+animation:gradient 12s ease infinite;
+
+}
+
+@keyframes gradient{
+
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+
+}
+
+/* glass card */
+
+.card{
+
+width:380px;
+padding:40px;
+
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(20px);
+
+border-radius:20px;
+
+box-shadow:0 25px 45px rgba(0,0,0,0.3);
+
+}
+
+h2{
+
+text-align:center;
+color:white;
+margin-bottom:20px;
+
+}
+
+input{
+
+width:100%;
+padding:12px;
+
+border:none;
+border-radius:10px;
+
+margin-bottom:6px;
+
+outline:none;
+
+background:white;
+
+}
+
+.error{
+
+font-size:13px;
+color:#ffbaba;
+margin-bottom:10px;
+
+}
+
+.password-box{
+
+position:relative;
+
+}
+
+.eye{
+
+position:absolute;
+right:12px;
+top:10px;
+cursor:pointer;
+
+}
+
+button{
+
+width:100%;
+padding:12px;
+
+border:none;
+border-radius:10px;
+
+background:linear-gradient(135deg,#ff7a18,#ffb347);
+
+color:white;
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+button:disabled{
+
+background:#777;
+
+}
+
+.link{
+
+text-align:center;
+color:#eee;
+margin-top:10px;
+cursor:pointer;
+
+}
+
+.spinner{
+
+display:none;
+text-align:center;
+color:white;
+margin-top:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2 id="title">Login</h2>
+
+<!-- SIGNUP EXTRA FIELDS -->
+
+<div id="signupFields" style="display:none">
+
+<input id="name" placeholder="Name">
+<div class="error" id="nameError"></div>
+
+<input id="phone" placeholder="Phone Number">
+<div class="error" id="phoneError"></div>
+
+</div>
+
+<!-- FORGOT PASSWORD FIELD -->
+
+<div id="forgotField" style="display:none">
+
+<input id="forgotEmail" placeholder="Enter registered email">
+<div class="error" id="forgotError"></div>
+
+</div>
+
+<input id="email" placeholder="Email">
+<div class="error" id="emailError"></div>
+
+<div class="password-box">
+
+<input id="password" type="password" placeholder="Password">
+
+<span class="eye" onclick="togglePassword()">👁</span>
+
+</div>
+
+<div class="error" id="passwordError"></div>
+
+<button id="submitBtn" onclick="submitForm()" disabled>Submit</button>
+
+<div class="spinner" id="spinner">Loading...</div>
+
+<div class="link" id="switchSignup" onclick="toggleSignup()">Switch to Signup</div>
+
+<div class="link" id="forgotLink" onclick="showForgot()">Forgot Password?</div>
+
+<div class="link" id="backLogin" onclick="backToLogin()" style="display:none">Back to Login</div>
+
+</div>
+
+<script>
+
+let mode="login"
+
+const submitBtn=document.getElementById("submitBtn")
+
+const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const phoneRegex=/^[6-9]\d{9}$/
+
+/* show hide password */
+
+function togglePassword(){
+
+const pass=document.getElementById("password")
+
+pass.type = pass.type==="password" ? "text":"password"
+
+}
+
+/* switch signup */
+
+function toggleSignup(){
+
+if(mode==="login"){
+
+mode="signup"
+
+document.getElementById("title").innerText="Signup"
+
+document.getElementById("signupFields").style.display="block"
+
+document.getElementById("switchSignup").innerText="Switch to Login"
+
+document.getElementById("forgotLink").style.display="none"
+
+}else{
+
+backToLogin()
+
+}
+
+}
+
+/* forgot password page */
+
+function showForgot(){
+
+mode="forgot"
+
+document.getElementById("title").innerText="Reset Password"
+
+document.getElementById("email").style.display="none"
+document.getElementById("password").style.display="none"
+document.getElementById("signupFields").style.display="none"
+
+document.getElementById("forgotField").style.display="block"
+
+document.getElementById("switchSignup").style.display="none"
+document.getElementById("forgotLink").style.display="none"
+
+document.getElementById("backLogin").style.display="block"
+
+submitBtn.disabled=false
+
+}
+
+/* back to login */
+
+function backToLogin(){
+
+mode="login"
+
+document.getElementById("title").innerText="Login"
+
+document.getElementById("email").style.display="block"
+document.getElementById("password").style.display="block"
+
+document.getElementById("signupFields").style.display="none"
+document.getElementById("forgotField").style.display="none"
+
+document.getElementById("switchSignup").style.display="block"
+document.getElementById("forgotLink").style.display="block"
+
+document.getElementById("backLogin").style.display="none"
+
+document.getElementById("switchSignup").innerText="Switch to Signup"
+
+validateForm()
+
+}
+
+/* validation */
+
+document.querySelectorAll("input").forEach(input=>{
+input.addEventListener("input",validateForm)
+})
+
+function validateForm(){
+
+let valid=true
+
+const name=document.getElementById("name").value.trim()
+const phone=document.getElementById("phone").value.trim()
+const email=document.getElementById("email").value.trim()
+const password=document.getElementById("password").value.trim()
+
+document.getElementById("nameError").innerText=""
+document.getElementById("phoneError").innerText=""
+document.getElementById("emailError").innerText=""
+document.getElementById("passwordError").innerText=""
+
+if(mode==="login"){
+
+if(!emailRegex.test(email)) valid=false
+if(password.length<5) valid=false
+
+}
+
+if(mode==="signup"){
+
+if(name.length<3){
+
+document.getElementById("nameError").innerText="Name must be at least 3 characters"
+valid=false
+
+}
+
+if(!phoneRegex.test(phone)){
+
+document.getElementById("phoneError").innerText="Invalid Indian phone number"
+valid=false
+
+}
+
+if(!emailRegex.test(email)){
+
+document.getElementById("emailError").innerText="Invalid email format"
+valid=false
+
+}
+
+if(password.length<5){
+
+document.getElementById("passwordError").innerText="Password must be at least 5 characters"
+valid=false
+
+}
+
+}
+
+submitBtn.disabled=!valid
+
+}
+
+/* submit */
+
+async function submitForm(){
+
+document.getElementById("spinner").style.display="block"
+
+if(mode==="login"){
+
+const email=document.getElementById("email").value
+const password=document.getElementById("password").value
+
+const res=await fetch("http://localhost:5000/login",{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({email,password})
+
+})
+
+const data=await res.json()
+
+document.getElementById("spinner").style.display="none"
+
+if(data.error){
+
+document.getElementById("emailError").innerText=data.error
+return
+
+}
+
+localStorage.setItem("userId",data.userId)
+localStorage.setItem("username",data.name)
+localStorage.setItem("email",email)
+localStorage.setItem("phone",data.phone)
+
+window.location.href="index.html"
+
+}
+
+/* signup */
+
+if(mode==="signup"){
+
+const name=document.getElementById("name").value
+const phone=document.getElementById("phone").value
+const email=document.getElementById("email").value
+const password=document.getElementById("password").value
+
+const res=await fetch("http://localhost:5000/signup",{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({name,phone,email,password})
+
+})
+
+const data=await res.json()
+
+document.getElementById("spinner").style.display="none"
+
+if(data.error){
+
+document.getElementById("emailError").innerText=data.error
+
+}else{
+
+alert("Signup successful")
+backToLogin()
+
+}
+
+}
+
+/* forgot password */
+
+if(mode==="forgot"){
+
+const email=document.getElementById("forgotEmail").value
+
+const res=await fetch("http://localhost:5000/forgot-password",{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({email})
+
+})
+
+const data=await res.json()
+
+document.getElementById("spinner").style.display="none"
+
+alert(data.message)
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

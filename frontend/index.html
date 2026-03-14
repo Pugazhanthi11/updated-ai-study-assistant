@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Study Assistant</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+
+<h2>🎓 AI Study</h2>
+
+<h4 id="welcomeUser"></h4>
+
+<button onclick="newChat()">+ New Chat</button>
+
+<input type="file" id="pdfFile">
+
+<button onclick="uploadPDF()">Upload PDF</button>
+
+<button onclick="summarizePDF()">📄 Summary</button>
+
+<button onclick="generateQuiz()">🧠 Quiz</button>
+
+<button onclick="toggleTheme()">🌙 Theme</button>
+
+<button onclick="toggleSettings()">⚙ Settings</button>
+
+<div id="settingsPanel" class="settings-panel">
+
+<p id="infoName"></p>
+<p id="infoEmail"></p>
+<p id="infoPhone"></p>
+
+<button onclick="logout()">Logout</button>
+
+<button onclick="showDeleteBox()">Delete Account</button>
+
+</div>
+
+<!-- DELETE ACCOUNT BOX -->
+
+<div id="deleteBox" class="deleteBox">
+
+<input type="password" id="deletePassword" placeholder="Enter password">
+
+<p id="deleteError"></p>
+
+<button onclick="deleteAccount()">Confirm Delete</button>
+
+</div>
+
+<div class="historyHeader">
+
+<h3>History</h3>
+
+<button onclick="toggleHistoryMenu()">⋮</button>
+
+</div>
+
+<div id="historyMenu" class="historyMenu">
+
+<button onclick="enableDeleteMode()">Delete History</button>
+
+<button id="deleteControls" onclick="deleteSelected()" style="display:none;">
+Delete Selected
+</button>
+
+</div>
+
+<ul id="history"></ul>
+
+<div id="deleteControls">
+
+<button onclick="deleteSelected()">Delete Selected</button>
+
+</div>
+
+<p id="questionCount">Questions:0</p>
+
+</div>
+
+<!-- CHAT AREA -->
+
+<div class="chat-area">
+
+<div class="topbar">
+
+<button class="menuBtn" onclick="toggleSidebar()">☰</button>
+
+<h3>AI Study Assistant</h3>
+
+<span id="studyModeBadge" class="studyModeBadge">📘 Study Mode</span>
+
+</div>
+
+<div id="chat-box"></div>
+
+<div class="input-area">
+
+<textarea id="question" placeholder="Ask anything..." rows="1"></textarea>
+
+<button onclick="startVoice()">🎤</button>
+
+<button onclick="askAI()">Send</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+
+const username=localStorage.getItem("username")
+const email=localStorage.getItem("email")
+const phone=localStorage.getItem("phone")
+
+document.getElementById("welcomeUser").innerText="👋 "+username
+
+document.getElementById("infoName").innerText="Name : "+username
+document.getElementById("infoEmail").innerText="Email : "+email
+document.getElementById("infoPhone").innerText="Phone : "+phone
+
+function toggleSettings(){
+
+const panel=document.getElementById("settingsPanel")
+
+panel.style.display = panel.style.display==="block" ? "none":"block"
+
+}
+
+function toggleSidebar(){
+
+const sidebar = document.getElementById("sidebar")
+
+if(sidebar.style.display === "none"){
+
+sidebar.style.display = "flex"
+
+}else{
+
+sidebar.style.display = "none"
+
+}
+
+}
+
+function toggleHistoryMenu(){
+
+const menu=document.getElementById("historyMenu")
+
+menu.style.display = menu.style.display==="block" ? "none":"block"
+
+}
+
+</script>
+
+</body>
+
+</html>
