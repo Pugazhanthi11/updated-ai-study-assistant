@@ -18,6 +18,9 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+app.get("/", (req, res) => {
+  res.send("AI Study Assistant Backend Running 🚀");
+});
 /* ================= GROQ ================= */
 
 const groq = new Groq({
