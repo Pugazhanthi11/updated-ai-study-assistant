@@ -715,18 +715,4 @@ cursor:pointer;
 
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
-
-.menuBtn{
-position:fixed;
-top:15px;
-left:15px;
-font-size:28px;
-background:none;
-border:none;
-color:white;
-cursor:pointer;
-z-index:2000;
-display:none;
-}
 
