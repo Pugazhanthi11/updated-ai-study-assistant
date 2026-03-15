@@ -456,12 +456,6 @@ window.location.href="login.html"
 
 }
 
-/* ================= MOBILE SIDEBAR ================= */
-
-function toggleSidebar(){
-document.getElementById("sidebar").classList.toggle("active")
-}
-
 loadHistory()
 
 addStreamingMessage(
