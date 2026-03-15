@@ -730,27 +730,37 @@ z-index:2000;
 display:none;
 }
 
-/* MOBILE */
+/* ===== MOBILE RESPONSIVE FIX ===== */
 
-@media (max-width:768px){
+@media (max-width: 768px){
 
-.menuBtn{
-display:block;
+.app{
+flex-direction: column;
+height: 100vh;
 }
 
 .sidebar{
-position:fixed;
-left:-260px;
-top:0;
-width:260px;
-height:100%;
-z-index:1500;
-transition:0.3s;
+width: 100%;
+height: auto;
+position: relative;
 }
 
 .chat-container{
-width:100%;
-margin-left:0;
+width: 100%;
+height: calc(100vh - 180px);
 }
 
+#chat-box{
+height: calc(100vh - 260px);
+overflow-y: auto;
+}
+
+.input-area{
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+padding: 10px;
+background: rgba(0,0,0,0.1);
+}
 }
