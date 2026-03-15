@@ -714,3 +714,43 @@ color:white;
 cursor:pointer;
 
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+.menuBtn{
+position:fixed;
+top:15px;
+left:15px;
+font-size:28px;
+background:none;
+border:none;
+color:white;
+cursor:pointer;
+z-index:2000;
+display:none;
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+.menuBtn{
+display:block;
+}
+
+.sidebar{
+position:fixed;
+left:-260px;
+top:0;
+width:260px;
+height:100%;
+z-index:1500;
+transition:0.3s;
+}
+
+.chat-container{
+width:100%;
+margin-left:0;
+}
+
+}
