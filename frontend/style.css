@@ -714,3 +714,56 @@ color:white;
 cursor:pointer;
 
 }
+
+/* ================= MOBILE VIEW ================= */
+
+@media (max-width: 768px){
+
+.app{
+flex-direction: column;
+}
+
+/* Hide sidebar by default */
+
+.sidebar{
+position: fixed;
+left: -260px;
+top: 0;
+height: 100%;
+width: 260px;
+z-index: 1000;
+transition: 0.3s;
+}
+
+/* When menu opened */
+
+.sidebar.active{
+left: 0;
+}
+
+/* Chat takes full width */
+
+.chat-container{
+width: 100%;
+margin-left: 0;
+}
+
+}
+
+.menuBtn{
+font-size:24px;
+background:none;
+border:none;
+color:white;
+cursor:pointer;
+margin-right:10px;
+display:none;
+}
+
+/* show button only on mobile */
+
+@media (max-width:768px){
+.menuBtn{
+display:block;
+}
+}
